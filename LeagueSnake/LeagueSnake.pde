@@ -28,14 +28,16 @@ int directionOfSnake=UP;
 int eatenFood=0;
 int MAX_X=500;
 int MAX_Y=500;
-
+int SPEED=5;
+int MIN_X=0;
+int MIN_Y=0;
 //*
 // ***** SETUP METHODS *****
 // These methods are called at the start of the game.
 //*
 
 void setup() {
-  size(500,500);
+  size(500, 500);
   segmentHead=new Segment(10, 10);
   frameRate(20);
   dropFood();
@@ -59,7 +61,7 @@ void draw() {
   drawFood();
   move();
   drawSnake();
- 
+  eat();
 }
 
 void drawFood() {
@@ -104,18 +106,13 @@ void checkTailCollision() {
 void keyPressed() {
   //Set the direction of the snake according to the arrow keys pressed
   if (key!=CODED) {
-    
-  }
-  else if(keyCode==UP){
+  } else if (keyCode==UP) {
     directionOfSnake=UP;
-  }
-  else if(keyCode==DOWN){
+  } else if (keyCode==DOWN) {
     directionOfSnake=DOWN;
-  }
-  else if(keyCode==LEFT){
+  } else if (keyCode==LEFT) {
     directionOfSnake=LEFT;
-  }
-  else if(keyCode==RIGHT){
+  } else if (keyCode==RIGHT) {
     directionOfSnake=RIGHT;
   }
 }
@@ -127,20 +124,20 @@ void move() {
   case UP:
     // move head up here 
 
-    segmentHead.y=segmentHead.y-1;
+    segmentHead.y=segmentHead.y-SPEED;
     System.out.println("Move Up");
     break;
   case DOWN:
-    segmentHead.y=segmentHead.y+1;
+    segmentHead.y=segmentHead.y+SPEED;
     // move head down here 
     break;
   case LEFT:
-    segmentHead.x=segmentHead.x-1;
+    segmentHead.x=segmentHead.x-SPEED;
     // figure it out 
     break;
   case RIGHT:
     // mystery code goes here 
-    segmentHead.x=segmentHead.x+1;
+    segmentHead.x=segmentHead.x+SPEED;
     break;
   }
   checkBoundaries();
@@ -148,10 +145,14 @@ void move() {
 
 void checkBoundaries() {
   //If the snake leaves the frame, make it reappear on the other side
-  if (segmentHead.x>=500) {
-    segmentHead.x=0;
-  } else if (segmentHead.y>=500) {
-    segmentHead.y=0;
+  if (segmentHead.x>=MAX_X) {
+    segmentHead.x=MIN_X;
+  } else if (segmentHead.y>=MAX_Y) {
+    segmentHead.y=MIN_Y;
+  } else if (segmentHead.x<=MIN_X) {
+    segmentHead.x=MAX_X;
+  } else if (segmentHead.y<=MIN_Y) {
+    segmentHead.y=MAX_Y;
   }
 }
 
@@ -159,4 +160,29 @@ void checkBoundaries() {
 
 void eat() {
   //When the snake eats the food, its tail should grow and more food appear
+  boolean hit=isHit();
+  if (hit) {
+    eatenFood=eatenFood+1;
+    dropFood();
+  }
+}
+boolean isHit() { 
+  boolean hit=false;
+  int delta=5;
+  int headCenterX=segmentHead.x+5;
+  int headCenterY=segmentHead.y+5;
+  int deltaX= abs(headCenterX-foodX);
+  int deltaY= abs(headCenterY-foodY);
+  if ((deltaX<=delta) && (deltaY<=delta)) {
+    hit=true;
+  } else if (deltaX>delta) {
+    System.out.print("dX: "+deltaX);
+    System.out.print("  sHX: "+segmentHead.x);
+    System.out.println("  fx: "+foodX);
+  } else if (deltaY>delta) {
+    System.out.print("dY: "+deltaY);
+    System.out.print("  sHY: "+segmentHead.y);
+    System.out.println("  fY: "+foodY);
+  }
+  return hit;
 }
