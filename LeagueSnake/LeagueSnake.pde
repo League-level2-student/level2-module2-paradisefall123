@@ -31,6 +31,7 @@ int MAX_Y=500;
 int SPEED=5;
 int MIN_X=0;
 int MIN_Y=0;
+ArrayList<Segment> snakeTail= new ArrayList<Segment>();
 //*
 // ***** SETUP METHODS *****
 // These methods are called at the start of the game.
@@ -85,11 +86,16 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail
+  fill(96, 185, 84);
+  rect( segmentHead.x, segmentHead.y, 10, 10);
 }
 
 void manageTail() {
   //After drawing the tail, add a new segment at the "start" of the tail and remove the one at the "end" 
   //This produces the illusion of the snake tail moving.
+  checkTailCollision();
+  drawTail();
+  
 }
 
 void checkTailCollision() {
