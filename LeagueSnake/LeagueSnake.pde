@@ -31,12 +31,16 @@ int MAX_Y=500;
 int SPEED=5;
 int MIN_X=0;
 int MIN_Y=0;
+int foodSize=10;
+int headSize=20;
 ArrayList<Segment> snakeTail= new ArrayList<Segment>();
+
 //*
 // ***** SETUP METHODS *****
 // These methods are called at the start of the game.
 //*
-
+ 
+ 
 void setup() {
   size(500, 500);
   segmentHead=new Segment(10, 10);
@@ -68,14 +72,15 @@ void draw() {
 void drawFood() {
   //Draw the food
   fill(5, 4, 4);
-  square(foodX, foodY, 10);
+  square(foodX, foodY, foodSize);
 }
 
 
 void drawSnake() {
   //Draw the head of the snake followed by its tail
   fill(96, 185, 84);
-  rect( segmentHead.x, segmentHead.y, 20, 20);
+  rect( segmentHead.x, segmentHead.y, headSize, headSize);
+  manageTail();
 }
 
 
@@ -83,19 +88,29 @@ void drawSnake() {
 // ***** TAIL MANAGEMENT METHODS *****
 // These methods make sure the tail is the correct length.
 //*
-
+void addToTail(){
+   Segment temp = new Segment(segmentHead.x+5, segmentHead.y+5); 
+  snakeTail.add(temp);
+}
 void drawTail() {
   //Draw each segment of the tail
+  // for loop trying to go through each element. 
+
   fill(96, 185, 84);
-  rect( segmentHead.x, segmentHead.y, 10, 10);
+  for (int i=0; i<snakeTail.size(); i++) {
+    Segment tail= snakeTail.get(i); // retrieving/ access it
+    rect(tail.x, tail.y, 10, 10); //take the tail and draw a rec
+  }
 }
 
 void manageTail() {
   //After drawing the tail, add a new segment at the "start" of the tail and remove the one at the "end" 
   //This produces the illusion of the snake tail moving.
   checkTailCollision();
-  drawTail();
-  
+  drawTail();  
+  // 108-109 lines add a new segment for tail 
+  addToTail();
+  snakeTail.remove(0); // removing the first element
 }
 
 void checkTailCollision() {
@@ -167,8 +182,10 @@ void checkBoundaries() {
 void eat() {
   //When the snake eats the food, its tail should grow and more food appear
   boolean hit=isHit();
-  if (hit) {
+  if (hit) { 
     eatenFood=eatenFood+1;
+    // only if the snake eats the food a new segment will be added and then a new food will appear
+    addToTail();
     dropFood();
   }
 }
@@ -182,13 +199,34 @@ boolean isHit() {
   if ((deltaX<=delta) && (deltaY<=delta)) {
     hit=true;
   } else if (deltaX>delta) {
-    System.out.print("dX: "+deltaX);
-    System.out.print("  sHX: "+segmentHead.x);
-    System.out.println("  fx: "+foodX);
+    //  System.out.print("dX: "+deltaX);
+    // System.out.print("  sHX: "+segmentHead.x);
+    //  System.out.println("  fx: "+foodX);
   } else if (deltaY>delta) {
-    System.out.print("dY: "+deltaY);
-    System.out.print("  sHY: "+segmentHead.y);
-    System.out.println("  fY: "+foodY);
+    // System.out.print("dY: "+deltaY);
+    // System.out.print("  sHY: "+segmentHead.y);
+    //  System.out.println("  fY: "+foodY);
   }
   return hit;
+}
+
+void checkHeadPos(){
+  //for(){}
+}
+
+boolean isFoodEaten(int x, int y){ //going through food x's and y's, if it makes a match they got a head 
+  boolean eaten=false;
+  int xMin=foodX;
+  int xMax=xMin+foodSize;
+  int yMin=foodY;
+  int yMax=yMin-foodSize;
+  for(int xx= xMin; xx<xMax-1;xx++){
+    
+    for(int yy=yMin; yy<yMax-1;yy++){
+      if((x==xx) && (y==yy)){
+        eaten=true;
+      }
+    }
+  }
+  return eaten;
 }
