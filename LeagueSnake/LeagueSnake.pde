@@ -32,15 +32,15 @@ int SPEED=5;
 int MIN_X=0;
 int MIN_Y=0;
 int foodSize=10;
-int headSize=20;
+int headSize=15;
 ArrayList<Segment> snakeTail= new ArrayList<Segment>();
 
 //*
 // ***** SETUP METHODS *****
 // These methods are called at the start of the game.
 //*
- 
- 
+
+
 void setup() {
   size(500, 500);
   segmentHead=new Segment(10, 10);
@@ -88,8 +88,8 @@ void drawSnake() {
 // ***** TAIL MANAGEMENT METHODS *****
 // These methods make sure the tail is the correct length.
 //*
-void addToTail(){
-   Segment temp = new Segment(segmentHead.x+5, segmentHead.y+5); 
+void addToTail() {
+  Segment temp = new Segment(segmentHead.x, segmentHead.y); 
   snakeTail.add(temp);
 }
 void drawTail() {
@@ -99,7 +99,7 @@ void drawTail() {
   fill(96, 185, 84);
   for (int i=0; i<snakeTail.size(); i++) {
     Segment tail= snakeTail.get(i); // retrieving/ access it
-    rect(tail.x, tail.y, 10, 10); //take the tail and draw a rec
+    rect(tail.x, tail.y, 15, 15); //take the tail and draw a rec
   }
 }
 
@@ -115,6 +115,16 @@ void manageTail() {
 
 void checkTailCollision() {
   //If the snake crosses its own tail, shrink the tail back to one segment
+  for (int i=0; i<snakeTail.size(); i++) {
+    Segment current= snakeTail.get(i);
+
+    if (segmentHead.x == current.x && segmentHead.y == current.y) {
+      eatenFood=0;
+      snakeTail.clear();
+      addToTail();
+      break;
+    }
+  }
 }
 
 
@@ -138,6 +148,7 @@ void keyPressed() {
   }
 }
 
+
 void move() {
   //Change the location of the Snake head based on the direction it is moving.
 
@@ -146,7 +157,6 @@ void move() {
     // move head up here 
 
     segmentHead.y=segmentHead.y-SPEED;
-    System.out.println("Move Up");
     break;
   case DOWN:
     segmentHead.y=segmentHead.y+SPEED;
@@ -210,20 +220,20 @@ boolean isHit() {
   return hit;
 }
 
-void checkHeadPos(){
+void checkHeadPos() {
   //for(){}
 }
 
-boolean isFoodEaten(int x, int y){ //going through food x's and y's, if it makes a match they got a head 
+boolean isFoodEaten(int x, int y) { //going through food x's and y's, if it makes a match they got a head 
   boolean eaten=false;
   int xMin=foodX;
   int xMax=xMin+foodSize;
   int yMin=foodY;
   int yMax=yMin-foodSize;
-  for(int xx= xMin; xx<xMax-1;xx++){
-    
-    for(int yy=yMin; yy<yMax-1;yy++){
-      if((x==xx) && (y==yy)){
+  for (int xx= xMin; xx<xMax-1; xx++) {
+
+    for (int yy=yMin; yy<yMax-1; yy++) {
+      if ((x==xx) && (y==yy)) {
         eaten=true;
       }
     }
