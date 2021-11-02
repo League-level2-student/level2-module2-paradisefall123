@@ -7,7 +7,8 @@ package _04_animals_inheritance;
  * HINT: We need a Super class to have all the things that Dog and Cat 
  *       have in common. Lets call that class Animal.
  */
-public class AnimalRunner {
+
+/*public class AnimalRunner {
 	public static void main(String[] args) {
 		Dog d = new Dog("Lucy", "brown", true);
 		d.printName();
@@ -22,3 +23,4 @@ public class AnimalRunner {
 		c.sleep();
 	}
 }
+*/
