@@ -16,11 +16,13 @@ public class LeagueInvaders {
         gpanel=new GamePanel();
     }
 
+
     void setup() {
         frame.add(gpanel);
         frame.setVisible(true);
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addKeyListener(gpanel);
     }
 
 }
