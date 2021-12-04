@@ -15,12 +15,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     Font startFont;
     Font instructionsFont;
     Font endFont;
-
+    String headingEnd="GAME OVER";
+    String subtitleEnd="You killed enemies";
+    String subtitle2End="Press ENTER to restart";
     GamePanel() {
         titleFont = new Font("Arial", Font.BOLD, 35);
         startFont = new Font("Arial", Font.PLAIN, 15);
         instructionsFont = new Font("Arial", Font.PLAIN, 15);
-        endFont = new Font("Arial", Font.BOLD, 35);
+        endFont = new Font("Arial", Font.BOLD, 25);
         frameDraw = new Timer(1000 / 60, this);
         frameDraw.start();
     }
@@ -44,10 +46,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.drawString("LEAGUE INVADERS", 100, 200);
         g.setFont(startFont);
         g.setColor(Color.YELLOW);
-        g.drawString("Press ENTER to start", 170, 420);
+        g.drawString("Press ENTER to start", 170, 320);
         g.setFont(instructionsFont);
         g.setColor(Color.RED);
-        g.drawString("Press SPACE for instructions", 150, 500);
+        g.drawString("Press SPACE for instructions", 150, 400);
     }
 
     void drawGameState(Graphics g) {
@@ -60,7 +62,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.RED);
         g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
         g.setColor(Color.BLACK);
-        g.drawString("GAME OVER", 170, 300);
+
+
+        g.drawString(headingEnd, getStart(g,headingEnd), 200);
+
+
+        g.drawString(subtitleEnd, getStart(g,subtitleEnd), 300);
+
+        g.drawString(subtitle2End, getStart(g,subtitle2End), 400);
+    }
+
+    private int getStart(Graphics g, String headingEnd) {
+        Font myFont = new Font("Serif", Font.BOLD, 36);
+        g.setFont(myFont);
+        int stringLen = (int) g.getFontMetrics().getStringBounds(headingEnd, g).getWidth();
+        return (LeagueInvaders.WIDTH - stringLen)/2;
     }
 
     @Override
