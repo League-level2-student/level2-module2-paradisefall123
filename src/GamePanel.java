@@ -18,6 +18,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     String headingEnd="GAME OVER";
     String subtitleEnd="You killed enemies";
     String subtitle2End="Press ENTER to restart";
+    String headingStart="LEAGUE INVADERS";
+    String subtitleStart1="Press ENTER to start";
+    String subtitleStart2="Press SPACE for instructions";
+    Rocketship m_billy=new Rocketship(LeagueInvaders.WIDTH/2,LeagueInvaders.HEIGHT-120,50,50);
     GamePanel() {
         titleFont = new Font("Arial", Font.BOLD, 35);
         startFont = new Font("Arial", Font.PLAIN, 15);
@@ -28,34 +32,36 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     void updateMenuState() {
+        currentState=MENU;
     }
 
     void updateGameState() {
-
+        currentState=GAME;
     }
 
     void updateEndState() {
-
+        currentState=END;
     }
 
     void drawMenuState(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
-        g.setFont(titleFont);
+
+
         g.setColor(Color.CYAN);
-        g.drawString("LEAGUE INVADERS", 100, 200);
-        g.setFont(startFont);
+        g.drawString(headingStart, getStart(g,headingStart), 200);
+
         g.setColor(Color.YELLOW);
-        g.drawString("Press ENTER to start", 170, 320);
-        g.setFont(instructionsFont);
+        g.drawString(subtitleStart1, getStart(g,subtitleStart1), 300);
+
         g.setColor(Color.RED);
-        g.drawString("Press SPACE for instructions", 150, 400);
+        g.drawString(subtitleStart2, getStart(g,subtitleStart2), 400);
     }
 
     void drawGameState(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
-
+        m_billy.draw(g);
     }
 
     void drawEndState(Graphics g) {
@@ -100,7 +106,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         } else if (currentState == END) {
             updateEndState();
         }
-        //System.out.println("action");
+       // System.out.println("action");
         this.repaint();
     }
 
@@ -122,13 +128,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             //only check the arrow keys while in the GAME state
 
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            System.out.println("UP");
+            //System.out.println("UP");
+            m_billy.up();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println("DOWN");
+            //System.out.println("DOWN");
+            m_billy.down();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("RIGHT");
+           // System.out.println("RIGHT");
+            m_billy.right();
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("LEFT");
+            //System.out.println("LEFT");
+            m_billy.left();
         }
     }
 
