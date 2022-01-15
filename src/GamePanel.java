@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     String subtitleStart1="Press ENTER to start";
     String subtitleStart2="Press SPACE for instructions";
     Rocketship m_billy=new Rocketship(LeagueInvaders.WIDTH/2,LeagueInvaders.HEIGHT-120,50,50);
+    
     GamePanel() {
         titleFont = new Font("Arial", Font.BOLD, 35);
         startFont = new Font("Arial", Font.PLAIN, 15);
