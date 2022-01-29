@@ -35,9 +35,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="LeagueInvaders" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.LeagueInvaders">
     <configuration name="LeagueInvaders" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="LeagueInvaders" />
+      <option name="MAIN_CLASS_NAME" value="LeagueInvaders.LeagueInvaders" />
       <module name="Level2-Module2" />
       <method v="2">
         <option name="Make" enabled="true" />

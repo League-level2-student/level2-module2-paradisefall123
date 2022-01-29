@@ -1,8 +1,12 @@
+package LeagueInvaders;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjectManager {
+public class ObjectManager implements ActionListener {
     Rocketship obm_ross;
     ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
     ArrayList<Alien> aliens = new ArrayList<Alien>();
@@ -13,10 +17,10 @@ public class ObjectManager {
     }
 
     void addProjectile(Projectile object) {
-        projectiles.add(new Projectile(10, 10, 10, 10));
+        projectiles.add(object);
     }
 
-    void addAlien(Alien object) {
+    void addAlien() {
         aliens.add(new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50));
 
     }
@@ -24,43 +28,49 @@ public class ObjectManager {
     void update() {
         for (int i = 0; i < aliens.size(); i++) {
             aliens.get(i).update();
-            if(aliens.get(i).m_y > 0 || aliens.get(i).m_y < LeagueInvaders.HEIGHT){
-            aliens.get(i).m_isActive=false;
+            if (aliens.get(i).m_y > 0 || aliens.get(i).m_y < LeagueInvaders.HEIGHT) {
+                aliens.get(i).m_isActive = false;
             }
 
         }
         for (int i = 0; i < projectiles.size(); i++) {
             projectiles.get(i).update();
-            if(projectiles.get(i).m_y > 0 || projectiles.get(i).m_y < LeagueInvaders.HEIGHT){
-                projectiles.get(i).m_isActive=false;
+            if (projectiles.get(i).m_y > 0 || projectiles.get(i).m_y < LeagueInvaders.HEIGHT) {
+                projectiles.get(i).m_isActive = false;
             }
         }
     }
 
-    void draw(Graphics e){
+    void draw(Graphics e) {
         obm_ross.draw(e);
 
         for (int i = 0; i < aliens.size(); i++) {
-        aliens.get(i).draw(e);
+            aliens.get(i).draw(e);
         }
 
         for (int i = 0; i < projectiles.size(); i++) {
-        aliens.get(i).draw(e);
+            aliens.get(i).draw(e);
         }
     }
 
-    void purgeObjects(){
+    void purgeObjects() {
         for (int i = 0; i < aliens.size(); i++) {
-            if(aliens.get(i).m_isActive=false){
+            if (aliens.get(i).m_isActive = false) {
                 aliens.remove(aliens.get(i));
             }
         }
 
         for (int i = 0; i < projectiles.size(); i++) {
-            if(projectiles.get(i).m_isActive=false){
+            if (projectiles.get(i).m_isActive = false) {
                 projectiles.remove(projectiles.get(i));
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       //To add an alien everytime timer expires
+        addAlien();
     }
 }
 

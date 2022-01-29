@@ -1,3 +1,5 @@
+package LeagueInvaders;
+
 import javax.swing.*;
 
 public class LeagueInvaders {
