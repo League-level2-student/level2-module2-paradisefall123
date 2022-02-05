@@ -26,8 +26,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     String headingStart = "LEAGUE INVADERS";
     String subtitleStart1 = "Press ENTER to start";
     String subtitleStart2 = "Press SPACE for instructions";
-    Rocketship m_billy = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
-    ObjectManager man_object = new ObjectManager(m_billy);
+    Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
+    ObjectManager man_object = new ObjectManager(m_rocketship);
     public static BufferedImage image;
     public static boolean needImage = true;
     public static boolean gotImage = false;
@@ -81,7 +81,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
         }
-        m_billy.draw(g);
+        m_rocketship.draw(g);
         man_object.update();
     }
 
@@ -106,6 +106,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         return (LeagueInvaders.WIDTH - stringLen) / 2;
     }
 
+
+
     @Override
     public void paintComponent(Graphics g) {
 
@@ -120,6 +122,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //System.out.println("*** action performed *** "+e.getActionCommand()+"  "+e.getSource());
+        // This method is called when the timer executes
         if (currentState == MENU) {
             updateMenuState();
         } else if (currentState == GAME) {
@@ -140,35 +144,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (currentState == END) {
-                currentState = MENU;
+                updateMenuState();
+                stopGame();
             } else {
-                currentState++;
+                updateGameState();
+                startGame();
+
+
             }
-        } else if ((currentState == MENU) || (currentState == END)) {
+
+        }else if(currentState == END){
+            stopGame();
+        }
+        else if ((currentState == MENU) || (currentState == END)) {
             // checking if current state is in MENU or END state because we want the code to
             //only check the arrow keys while in the GAME state
 
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+        } else if(e.getKeyCode()== KeyEvent.VK_SPACE){
+            System.out.println("SPACE BAR");
+            man_object.addProjectile(m_rocketship.createProjectile());
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_UP) {
             //System.out.println("UP");
-            if (m_billy.m_y > 3) {
-                m_billy.up();
+            if (m_rocketship.m_y > 3) {
+                m_rocketship.up();
             }
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             //System.out.println("DOWN");
-            if (m_billy.m_y < LeagueInvaders.HEIGHT - 115) {
+            if (m_rocketship.m_y < LeagueInvaders.HEIGHT - 115) {
                 //System.out.println(m_billy.m_y);
-                m_billy.down();
+                m_rocketship.down();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             // System.out.println("RIGHT");
-            if (m_billy.m_x < LeagueInvaders.WIDTH - 55) {
-                m_billy.right();
+            if (m_rocketship.m_x < LeagueInvaders.WIDTH - 55) {
+                m_rocketship.right();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             //System.out.println("LEFT");
-            if (m_billy.m_x > 1) {
-                m_billy.left();
+            if (m_rocketship.m_x > 1) {
+                m_rocketship.left();
             }
         }
     }
@@ -188,6 +204,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     void startGame(){
         timer_alienSpawn = new Timer(1000 , man_object);
         timer_alienSpawn.start();
+    }
+
+    void stopGame(){
+        timer_alienSpawn.stop();
     }
 
     @Override

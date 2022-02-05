@@ -12,7 +12,8 @@ public class Projectile extends GameObject {
     }
 
     void update(){
-    m_y-=m_speed;
+
+        m_y-=m_speed;
     }
 
     void draw(Graphics g){

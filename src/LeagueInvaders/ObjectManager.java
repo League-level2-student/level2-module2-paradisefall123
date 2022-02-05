@@ -17,12 +17,14 @@ public class ObjectManager implements ActionListener {
     }
 
     void addProjectile(Projectile object) {
+
         projectiles.add(object);
     }
 
     void addAlien() {
-        aliens.add(new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50));
-
+        Alien random_alien= new Alien(random.nextInt(LeagueInvaders.WIDTH), 0,50,50);
+        aliens.add(random_alien);
+        System.out.println("Alien added "+random_alien.m_x );
     }
 
     void update() {
@@ -43,13 +45,15 @@ public class ObjectManager implements ActionListener {
 
     void draw(Graphics e) {
         obm_ross.draw(e);
-
+        System.out.println("DRAW ALIENS AND STUFF");
+        //Going through the aliens and drawing them
         for (int i = 0; i < aliens.size(); i++) {
             aliens.get(i).draw(e);
-        }
 
+        }
+        // going through the projectiles and drawing them
         for (int i = 0; i < projectiles.size(); i++) {
-            aliens.get(i).draw(e);
+            projectiles.get(i).draw(e);
         }
     }
 

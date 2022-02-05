@@ -31,6 +31,7 @@ public class Rocketship extends GameObject {
     }
 
     public Projectile createProjectile() {
+
         return new Projectile(m_x+m_width/2, m_y, 10, 10);
     }
 
