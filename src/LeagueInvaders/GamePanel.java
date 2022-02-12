@@ -81,9 +81,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
         }
-        m_rocketship.draw(g);
+        //instead of calling rocketship again we called the object manager to do all the drawing
+        // draw depends on update but update does not depend on draw; change the state to use the changed state to draw
         man_object.update();
+        man_object.draw(g);
+
+
     }
+
 
     void drawEndState(Graphics g) {
         g.setColor(Color.RED);
@@ -110,7 +115,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void paintComponent(Graphics g) {
-
+        // paint component is a native method and always getting called; from here we can call draw methods
         if (currentState == MENU) {
             drawMenuState(g);
         } else if (currentState == GAME) {

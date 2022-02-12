@@ -12,13 +12,10 @@ public class Projectile extends GameObject {
     }
 
     void update(){
-
-        m_y-=m_speed;
+        m_y=m_y-m_speed;
+      //  m_y-=m_speed;
     }
 
-    void draw(Graphics g){
-        g.setColor(Color.RED);
-        g.fillRect(m_x, m_y, m_width, m_height);
-    }
+
 }
 
