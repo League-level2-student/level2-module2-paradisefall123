@@ -46,14 +46,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     void updateMenuState() {
+
         currentState = MENU;
     }
 
     void updateGameState() {
         currentState = GAME;
+        if (m_rocketship.m_isActive == false) {
+            currentState = END;
+        }
     }
 
     void updateEndState() {
+
         currentState = END;
     }
 
@@ -76,7 +81,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //g.setColor(Color.BLACK);
         // g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
         if (gotImage) {
-            g.drawImage(image, 0,0 , LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
+            g.drawImage(image, 0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
         } else {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
@@ -110,7 +115,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int stringLen = (int) g.getFontMetrics().getStringBounds(headingEnd, g).getWidth();
         return (LeagueInvaders.WIDTH - stringLen) / 2;
     }
-
 
 
     @Override
@@ -150,7 +154,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (currentState == END) {
                 updateMenuState();
-                stopGame();
+               // stopGame();
             } else {
                 updateGameState();
                 startGame();
@@ -158,18 +162,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
             }
 
-        }else if(currentState == END){
+        } else if (currentState == END) {
             stopGame();
-        }
-        else if ((currentState == MENU) || (currentState == END)) {
+        } else if ((currentState == MENU) || (currentState == END)) {
             // checking if current state is in MENU or END state because we want the code to
             //only check the arrow keys while in the GAME state
 
-        } else if(e.getKeyCode()== KeyEvent.VK_SPACE){
-            System.out.println("SPACE BAR");
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+           // System.out.println("SPACE BAR");
             man_object.addProjectile(m_rocketship.createProjectile());
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_UP) {
+        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             //System.out.println("UP");
             if (m_rocketship.m_y > 3) {
                 m_rocketship.up();
@@ -206,12 +208,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    void startGame(){
-        timer_alienSpawn = new Timer(1000 , man_object);
+    void startGame() {
+        timer_alienSpawn = new Timer(1000, man_object);
         timer_alienSpawn.start();
     }
 
-    void stopGame(){
+    void stopGame() {
         timer_alienSpawn.stop();
     }
 

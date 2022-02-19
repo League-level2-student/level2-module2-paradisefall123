@@ -8,7 +8,7 @@ public class GameObject {
     public  BufferedImage m_image;
     public  boolean m_needImage = true;
     public  boolean m_gotImage = false;
-
+    Rectangle collisionBox;
     int m_x;
     int m_y;
     int m_width;
@@ -21,10 +21,11 @@ public class GameObject {
         m_y=y;
         m_width=width;
         m_height=height;
+        collisionBox=new Rectangle(x,y,width,height);
     }
 
     void update(){
-
+    collisionBox.setBounds(m_x,m_y,m_width,m_height);
     }
 
     void loadImage(String imageFile) {
