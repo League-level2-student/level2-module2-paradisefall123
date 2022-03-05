@@ -161,7 +161,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
             }
-
+        //collision box is moving
         } else if (currentState == END) {
             stopGame();
         } else if ((currentState == MENU) || (currentState == END)) {

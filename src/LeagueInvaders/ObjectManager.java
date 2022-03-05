@@ -11,7 +11,11 @@ public class ObjectManager implements ActionListener {
     ArrayList<Projectile> m_projectiles = new ArrayList<Projectile>();
     ArrayList<Alien> m_aliens = new ArrayList<Alien>();
     Random random = new Random();
+    int score=0;
 
+    public int getScore(){
+        return  score;
+    }
     ObjectManager(Rocketship rocketship) {
         //Want to reuse rocketship
         m_rocketship = rocketship;
@@ -66,9 +70,9 @@ public class ObjectManager implements ActionListener {
     }
 
     void purgeObjects() {
-        for (int i = 0; i < m_aliens.size(); i++) {
-            if (m_aliens.get(i).m_isActive== false) {
-                m_aliens.remove(m_aliens.get(i));
+        for (int z = 0; z < m_aliens.size(); z++) {
+            if (m_aliens.get(z).m_isActive== false) {
+                m_aliens.remove(m_aliens.get(z));
             }
         }
 
@@ -84,6 +88,8 @@ public class ObjectManager implements ActionListener {
         checkProjectileCollision();
     }
 
+
+
     private void checkAlienCollision() {
         for (int i = 0; i < m_aliens.size(); i++) {
             if (m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) {
@@ -94,14 +100,14 @@ public class ObjectManager implements ActionListener {
         }
     }
 
+
     private void checkProjectileCollision() {
         for (int i = 0; i < m_projectiles.size(); i++) {
             for (int z = 0; z < m_aliens.size(); z++) {
                 if (m_projectiles.get(i).collisionBox.intersects(m_aliens.get(z).collisionBox)) {
                     m_aliens.get(z).m_isActive = false;
-
                     m_projectiles.get(i).m_isActive = false;
-
+                    score++;
                     System.out.println("projectile collision");
                 }
             }
