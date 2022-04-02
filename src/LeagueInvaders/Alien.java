@@ -7,15 +7,16 @@ public class Alien extends GameObject {
 
     Alien(int x, int y, int width, int height) {
         super(x, y, width, height);
-        m_speed=1;
+        m_speed = 1;
         if (m_needImage) {
-            loadImage ("alien.png");
+            loadImage("alien.png");
         }
     }
 
-    void update(){
+    void update() {
+        m_y += m_speed;
         super.update();
-        m_y+=m_speed;
+
     }
 
 

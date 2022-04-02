@@ -16,6 +16,11 @@ public class ObjectManager implements ActionListener {
     public int getScore(){
         return  score;
     }
+
+    public void setScore(int score){
+        this.score=score;
+
+    }
     ObjectManager(Rocketship rocketship) {
         //Want to reuse rocketship
         m_rocketship = rocketship;
@@ -71,15 +76,19 @@ public class ObjectManager implements ActionListener {
 
     void purgeObjects() {
         for (int z = 0; z < m_aliens.size(); z++) {
-            if (m_aliens.get(z).m_isActive== false) {
+            if (!m_aliens.get(z).m_isActive) {
                 m_aliens.remove(m_aliens.get(z));
             }
         }
 
         for (int i = 0; i < m_projectiles.size(); i++) {
-            if (m_projectiles.get(i).m_isActive == false) {
+            if (!m_projectiles.get(i).m_isActive) {
                 m_projectiles.remove(m_projectiles.get(i));
             }
+        }
+
+        if(!m_rocketship.m_isActive){
+
         }
     }
 
@@ -92,10 +101,14 @@ public class ObjectManager implements ActionListener {
 
     private void checkAlienCollision() {
         for (int i = 0; i < m_aliens.size(); i++) {
+            System.out.println("\n"+i);
+            System.out.println("rocketship x: "+m_rocketship.m_x+" Aliens x: "+m_aliens.get(i).m_x);
+            System.out.println("rocketship y: "+m_rocketship.m_y+" Aliens y: "+m_aliens.get(i).m_y);
+
             if (m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) {
                 m_aliens.get(i).m_isActive = false;
                 m_rocketship.m_isActive = false;
-                System.out.println("alien collision");
+                System.out.println("alien collision and i: "+i);
             }
         }
     }
@@ -108,10 +121,19 @@ public class ObjectManager implements ActionListener {
                     m_aliens.get(z).m_isActive = false;
                     m_projectiles.get(i).m_isActive = false;
                     score++;
-                    System.out.println("projectile collision");
+
                 }
             }
         }
+    }
+
+    public void resetState(){
+        m_aliens.clear();
+        m_projectiles.clear();
+        m_rocketship.m_x= LeagueInvaders.WIDTH / 2;
+        m_rocketship.m_y= LeagueInvaders.HEIGHT - 120;
+        m_rocketship.m_isActive = true;
+        setScore(0);
     }
 
 

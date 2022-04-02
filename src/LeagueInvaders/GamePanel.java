@@ -26,6 +26,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     String headingStart = "LEAGUE INVADERS";
     String subtitleStart1 = "Press ENTER to start";
     String subtitleStart2 = "Press SPACE for instructions";
+
+
     Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
     ObjectManager man_object = new ObjectManager(m_rocketship);
     public static BufferedImage image;
@@ -52,7 +54,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     void updateGameState() {
         currentState = GAME;
-        if (m_rocketship.m_isActive == false) {
+        if (!m_rocketship.m_isActive) {
             currentState = END;
         }
     }
@@ -61,6 +63,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         currentState = END;
     }
+
 
     void drawMenuState(Graphics g) {
         g.setColor(Color.BLUE);
@@ -78,14 +81,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     void drawGameState(Graphics g) {
-        //g.setColor(Color.BLACK);
-        // g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+        String scoreboard = " Score: " + man_object.getScore();
         if (gotImage) {
             g.drawImage(image, 0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
         } else {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
         }
+        g.setColor(Color.white);
+        g.drawRect(20, 20, 60, 30);
+        g.drawString(scoreboard, 20, 40);
         //instead of calling rocketship again we called the object manager to do all the drawing
         // draw depends on update but update does not depend on draw; change the state to use the changed state to draw
         man_object.update();
@@ -116,7 +121,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         return (LeagueInvaders.WIDTH - stringLen) / 2;
     }
 
+    void creatingRocket() {
+        Rocketship newRocket = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
+        ObjectManager newMan_object = new ObjectManager(newRocket);
+    }
 
+    void restart(){
+        man_object.resetState();
+        startGame();
+
+    }
     @Override
     public void paintComponent(Graphics g) {
         // paint component is a native method and always getting called; from here we can call draw methods
@@ -154,22 +168,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (currentState == END) {
                 updateMenuState();
-               // stopGame();
+
             } else {
                 updateGameState();
                 startGame();
 
 
             }
-        //collision box is moving
+            //collision box is moving
         } else if (currentState == END) {
             stopGame();
+            restart();
+            //creatingRocket();
         } else if ((currentState == MENU) || (currentState == END)) {
             // checking if current state is in MENU or END state because we want the code to
             //only check the arrow keys while in the GAME state
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-           // System.out.println("SPACE BAR");
+            // System.out.println("SPACE BAR");
             man_object.addProjectile(m_rocketship.createProjectile());
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             //System.out.println("UP");
@@ -211,9 +227,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     void startGame() {
         timer_alienSpawn = new Timer(1000, man_object);
         timer_alienSpawn.start();
+
     }
 
     void stopGame() {
+
         timer_alienSpawn.stop();
     }
 
