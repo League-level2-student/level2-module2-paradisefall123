@@ -65,6 +65,7 @@ public class ObjectManager implements ActionListener {
         //System.out.println("DRAW ALIENS AND STUFF");
         //Going through the aliens and drawing them
         for (int i = 0; i < m_aliens.size(); i++) {
+            System.out.println("draw aliens");
             m_aliens.get(i).draw(e);
 
         }
@@ -101,13 +102,14 @@ public class ObjectManager implements ActionListener {
 
     private void checkAlienCollision() {
         for (int i = 0; i < m_aliens.size(); i++) {
-            System.out.println("\n"+i);
+          //  System.out.println("\n"+i);
             System.out.println("rocketship x: "+m_rocketship.m_x+" Aliens x: "+m_aliens.get(i).m_x);
             System.out.println("rocketship y: "+m_rocketship.m_y+" Aliens y: "+m_aliens.get(i).m_y);
 
-            if (m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) {
+            if (m_aliens.get(i).collisionBox.intersects(m_rocketship.collisionBox)) {
                 m_aliens.get(i).m_isActive = false;
                 m_rocketship.m_isActive = false;
+
                 System.out.println("alien collision and i: "+i);
             }
         }
@@ -140,7 +142,10 @@ public class ObjectManager implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //To add an alien everytime timer expires
-        addAlien();
+        if(m_aliens.size()==0){
+
+            addAlien();
+        }
     }
 }
 

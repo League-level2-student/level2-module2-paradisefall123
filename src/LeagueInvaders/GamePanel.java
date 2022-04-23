@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
     Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
+    //Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
     ObjectManager man_object = new ObjectManager(m_rocketship);
     public static BufferedImage image;
     public static boolean needImage = true;
@@ -54,6 +55,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     void updateGameState() {
         currentState = GAME;
+        man_object.update();
         if (!m_rocketship.m_isActive) {
             currentState = END;
         }
@@ -167,9 +169,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (currentState == END) {
-                updateMenuState();
+               currentState = MENU;
 
             } else {
+                currentState++;
                 updateGameState();
                 startGame();
 
