@@ -32,7 +32,8 @@ public class ObjectManager implements ActionListener {
     }
 
     void addAlien() {
-        Alien random_alien = new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50);
+        //Alien random_alien = new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50);
+        Alien random_alien = new Alien(LeagueInvaders.WIDTH/2, 0, 50, 50);
         m_aliens.add(random_alien);
         //System.out.println("Alien added " + random_alien.m_x);
     }
@@ -102,18 +103,24 @@ public class ObjectManager implements ActionListener {
 
     private void checkAlienCollision() {
         for (int i = 0; i < m_aliens.size(); i++) {
-          //  System.out.println("\n"+i);
-            System.out.println("rocketship x: "+m_rocketship.m_x+" Aliens x: "+m_aliens.get(i).m_x);
-            System.out.println("rocketship y: "+m_rocketship.m_y+" Aliens y: "+m_aliens.get(i).m_y);
-
-            if (m_aliens.get(i).collisionBox.intersects(m_rocketship.collisionBox)) {
+            //  System.out.println("\n"+i);
+            System.out.println("rocketship x: " + m_rocketship.m_x + "  rocketship y: " + m_rocketship.m_y+" Ht: "+m_rocketship.m_height+ " Wd: "+m_rocketship.m_width);
+            System.out.println("Aliens     x: " + m_aliens.get(i).m_x + "  Aliens     y: " + m_aliens.get(i).m_y+" Ht: "+m_aliens.get(i).m_height+" Wd: "+m_aliens.get(i).m_width);
+            System.out.println("   ");
+            //if ( (m_aliens.get(i).collisionBox.intersects(m_rocketship.collisionBox)) ||
+            //(m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) )
+            if (m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) {
                 m_aliens.get(i).m_isActive = false;
                 m_rocketship.m_isActive = false;
 
-                System.out.println("alien collision and i: "+i);
+                System.out.println("alien collision and i: " + i);
+                System.out.println("rocketship x: " + m_rocketship.m_x + "  rocketship y: " + m_rocketship.m_y);
+                System.out.println("Aliens     x: " + m_aliens.get(i).m_x + "  Aliens     y: " + m_aliens.get(i).m_y);
+                System.out.println("   ");
             }
         }
     }
+
 
 
     private void checkProjectileCollision() {

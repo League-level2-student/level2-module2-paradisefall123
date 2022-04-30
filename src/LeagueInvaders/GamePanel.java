@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     final int MENU = 0;
     final int GAME = 1;
     final int END = 2;
+    final int INSTRUCTION = 3;
     int currentState = MENU;
     Timer frameDraw;
     Timer timer_alienSpawn;
@@ -25,9 +26,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     String subtitle2End = "Press ENTER to restart";
     String headingStart = "LEAGUE INVADERS";
     String subtitleStart1 = "Press ENTER to start";
-    String subtitleStart2 = "Press SPACE for instructions";
-
-
+    String subtitleStart2 = "Press D for instructions";
+    String subtitleIns1= "Use the arrow keys to move Rocketship";
+    String subtitleIns2= "Press the space bar to attack the aliens";
+    String subtitleIns3= "Avoid getting hit by the alien or it is GAME OVER";
+    String subtitleIns4="Have fun!";
     Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
     //Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
     ObjectManager man_object = new ObjectManager(m_rocketship);
@@ -38,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     GamePanel() {
         titleFont = new Font("Arial", Font.BOLD, 35);
         startFont = new Font("Arial", Font.PLAIN, 15);
-        instructionsFont = new Font("Arial", Font.PLAIN, 15);
+        instructionsFont = new Font("Arial", Font.PLAIN, 12);
         endFont = new Font("Arial", Font.BOLD, 25);
         frameDraw = new Timer(1000 / 60, this);
         if (needImage) {
@@ -66,6 +69,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         currentState = END;
     }
 
+    void updateInstructionState(){
+        currentState = INSTRUCTION;
+    }
 
     void drawMenuState(Graphics g) {
         g.setColor(Color.BLUE);
@@ -82,6 +88,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.drawString(subtitleStart2, getStart(g, subtitleStart2), 400);
     }
 
+    void drawInstructionState(Graphics g){
+        g.setColor(Color.PINK);
+        g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+
+        g.setColor(Color.BLACK);
+        g.drawString(subtitleIns1, getStart(g, subtitleIns1), 200);
+
+        g.drawString(subtitleIns2, getStart(g, subtitleIns2), 300);
+
+        g.drawString(subtitleIns3, getStart(g, subtitleIns3), 400);
+    }
     void drawGameState(Graphics g) {
         String scoreboard = " Score: " + man_object.getScore();
         if (gotImage) {
@@ -142,6 +159,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             drawGameState(g);
         } else if (currentState == END) {
             drawEndState(g);
+        } else if (currentState == INSTRUCTION){
+            drawInstructionState(g);
         }
     }
 
@@ -155,6 +174,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             updateGameState();
         } else if (currentState == END) {
             updateEndState();
+        }else if (currentState==INSTRUCTION){
+            updateInstructionState();
         }
         // System.out.println("action");
         this.repaint();
@@ -178,12 +199,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
             }
+
             //collision box is moving
-        } else if (currentState == END) {
+        } else if(e.getKeyCode() == KeyEvent.VK_D) {
+            if (currentState==MENU){
+                currentState = INSTRUCTION;
+            }
+
+        }
+        else if (currentState == END) {
             stopGame();
             restart();
             //creatingRocket();
-        } else if ((currentState == MENU) || (currentState == END)) {
+        } else if ((currentState == MENU) || (currentState == END) || (currentState == INSTRUCTION)) {
             // checking if current state is in MENU or END state because we want the code to
             //only check the arrow keys while in the GAME state
 
