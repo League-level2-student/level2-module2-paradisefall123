@@ -15,7 +15,7 @@ public class LeagueInvaders {
 
     LeagueInvaders() {
         frame = new JFrame();
-        gpanel=new GamePanel();
+        gpanel = new GamePanel();
     }
 
 

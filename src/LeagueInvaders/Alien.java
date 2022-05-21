@@ -23,7 +23,7 @@ public class Alien extends GameObject {
 
     }
 
-    void draw(Graphics g){
+    void draw(Graphics g) {
         if (gotImage) {
             g.drawImage(image, m_x, m_y, m_width, m_height, null);
         } else {

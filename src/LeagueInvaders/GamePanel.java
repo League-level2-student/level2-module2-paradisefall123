@@ -22,18 +22,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     Font instructionsFont;
     Font endFont;
     String headingEnd = "GAME OVER";
-    String subtitleEnd = "You killed enemies";
+    String subtitleEndPrefix = "You killed ";
+    String subtitleEndSuffix = " enemies";
     String subtitle2End = "Press ENTER to restart";
     String headingStart = "LEAGUE INVADERS";
     String subtitleStart1 = "Press ENTER to start";
-    String subtitleStart2 = "Press D for instructions";
-    String subtitleIns1= "Use the arrow keys to move Rocketship";
-    String subtitleIns2= "Press the space bar to attack the aliens";
-    String subtitleIns3= "Avoid getting hit by the alien or it is GAME OVER";
-    String subtitleIns4="Have fun!";
-    Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
-    //Rocketship m_rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
-    ObjectManager man_object = new ObjectManager(m_rocketship);
+    String subtitleStart2 = "Press I for instructions";
+    String subtitleIns1 = "Use the arrow keys to move Rocketship";
+    String subtitleIns2 = "Press the space bar to attack the aliens";
+    String subtitleIns3 = "Avoid getting hit by the alien or it is GAME OVER";
+    String subtitleIns4 = "Have fun! Press ENTER to begin!";
+    Rocketship rocketship = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
+    ObjectManager man_object = new ObjectManager(rocketship);
     public static BufferedImage image;
     public static boolean needImage = true;
     public static boolean gotImage = false;
@@ -59,8 +59,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     void updateGameState() {
         currentState = GAME;
         man_object.update();
-        if (!m_rocketship.m_isActive) {
-            currentState = END;
+        if (!rocketship.m_isActive) {
+            updateEndState();
         }
     }
 
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         currentState = END;
     }
 
-    void updateInstructionState(){
+    void updateInstructionState() {
         currentState = INSTRUCTION;
     }
 
@@ -88,17 +88,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.drawString(subtitleStart2, getStart(g, subtitleStart2), 400);
     }
 
-    void drawInstructionState(Graphics g){
+    void drawInstructionState(Graphics g) {
         g.setColor(Color.PINK);
         g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 
         g.setColor(Color.BLACK);
-        g.drawString(subtitleIns1, getStart(g, subtitleIns1), 200);
 
-        g.drawString(subtitleIns2, getStart(g, subtitleIns2), 300);
+        g.drawString(subtitleIns1, getInstructions(g, subtitleIns1), 200);
 
-        g.drawString(subtitleIns3, getStart(g, subtitleIns3), 400);
+        g.drawString(subtitleIns2, getInstructions(g, subtitleIns2), 300);
+
+        g.drawString(subtitleIns3, getInstructions(g, subtitleIns3), 400);
+
+        g.drawString(subtitleIns4, getInstructions(g, subtitleIns4), 500);
     }
+
     void drawGameState(Graphics g) {
         String scoreboard = " Score: " + man_object.getScore();
         if (gotImage) {
@@ -128,7 +132,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.drawString(headingEnd, getStart(g, headingEnd), 200);
 
 
-        g.drawString(subtitleEnd, getStart(g, subtitleEnd), 300);
+        String subtitle = subtitleEndPrefix + man_object.score+ subtitleEndSuffix;
+        g.drawString(subtitle, getStart(g, subtitle), 300);
 
         g.drawString(subtitle2End, getStart(g, subtitle2End), 400);
     }
@@ -139,17 +144,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int stringLen = (int) g.getFontMetrics().getStringBounds(headingEnd, g).getWidth();
         return (LeagueInvaders.WIDTH - stringLen) / 2;
     }
-
-    void creatingRocket() {
-        Rocketship newRocket = new Rocketship(LeagueInvaders.WIDTH / 2, LeagueInvaders.HEIGHT - 120, 50, 50);
-        ObjectManager newMan_object = new ObjectManager(newRocket);
+    private int getInstructions(Graphics g, String subtitleIns) {
+        Font myFont = new Font("Serif", Font.BOLD, 22);
+        g.setFont(myFont);
+        int stringLen = (int) g.getFontMetrics().getStringBounds(subtitleIns, g).getWidth();
+        return (LeagueInvaders.WIDTH - stringLen) / 2;
     }
 
-    void restart(){
+
+    void restart() {
         man_object.resetState();
         startGame();
 
     }
+
     @Override
     public void paintComponent(Graphics g) {
         // paint component is a native method and always getting called; from here we can call draw methods
@@ -159,7 +167,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             drawGameState(g);
         } else if (currentState == END) {
             drawEndState(g);
-        } else if (currentState == INSTRUCTION){
+        } else if (currentState == INSTRUCTION) {
             drawInstructionState(g);
         }
     }
@@ -174,7 +182,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             updateGameState();
         } else if (currentState == END) {
             updateEndState();
-        }else if (currentState==INSTRUCTION){
+        } else if (currentState == INSTRUCTION) {
             updateInstructionState();
         }
         // System.out.println("action");
@@ -190,7 +198,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (currentState == END) {
-               currentState = MENU;
+                currentState = MENU;
 
             } else {
                 currentState++;
@@ -201,13 +209,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             }
 
             //collision box is moving
-        } else if(e.getKeyCode() == KeyEvent.VK_D) {
-            if (currentState==MENU){
+        } else if (e.getKeyCode() == KeyEvent.VK_I) {
+            if (currentState == MENU) {
                 currentState = INSTRUCTION;
             }
 
-        }
-        else if (currentState == END) {
+        } else if (currentState == END) {
             stopGame();
             restart();
             //creatingRocket();
@@ -217,28 +224,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             // System.out.println("SPACE BAR");
-            man_object.addProjectile(m_rocketship.createProjectile());
+            man_object.addProjectile(rocketship.createProjectile());
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             //System.out.println("UP");
-            if (m_rocketship.m_y > 3) {
-                m_rocketship.up();
+            if (rocketship.m_y > 3) {
+                rocketship.up();
             }
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             //System.out.println("DOWN");
-            if (m_rocketship.m_y < LeagueInvaders.HEIGHT - 115) {
+            if (rocketship.m_y < LeagueInvaders.HEIGHT - 115) {
                 //System.out.println(m_billy.m_y);
-                m_rocketship.down();
+                rocketship.down();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             // System.out.println("RIGHT");
-            if (m_rocketship.m_x < LeagueInvaders.WIDTH - 55) {
-                m_rocketship.right();
+            if (rocketship.m_x < LeagueInvaders.WIDTH - 55) {
+                rocketship.right();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             //System.out.println("LEFT");
-            if (m_rocketship.m_x > 1) {
-                m_rocketship.left();
+            if (rocketship.m_x > 1) {
+                rocketship.left();
             }
         }
     }

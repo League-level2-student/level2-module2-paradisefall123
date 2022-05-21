@@ -5,27 +5,27 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class GameObject {
-    public  BufferedImage m_image;
-    public  boolean m_needImage = true;
-    public  boolean m_gotImage = false;
+    public BufferedImage m_image;
+    public boolean m_needImage = true;
+    public boolean m_gotImage = false;
     Rectangle collisionBox;
     int m_x;
     int m_y;
     int m_width;
     int m_height;
-    int m_speed=0;
-    boolean m_isActive=true;
+    int m_speed = 0;
+    boolean m_isActive = true;
 
-    GameObject(int x, int y, int width, int height){
-        m_x=x;
-        m_y=y;
-        m_width=width;
-        m_height=height;
-        collisionBox=new Rectangle(x,y,width,height);
+    GameObject(int x, int y, int width, int height) {
+        m_x = x;
+        m_y = y;
+        m_width = width;
+        m_height = height;
+        collisionBox = new Rectangle(x, y, width, height);
     }
 
-    void update(){
-    collisionBox.setBounds(m_x,m_y,m_width,m_height);
+    void update() {
+        collisionBox.setBounds(m_x, m_y, m_width, m_height);
     }
 
     void loadImage(String imageFile) {
@@ -40,7 +40,7 @@ public class GameObject {
         }
     }
 
-    void draw(Graphics g){
+    void draw(Graphics g) {
         if (m_gotImage) {
             g.drawImage(m_image, m_x, m_y, m_width, m_height, null);
         } else {

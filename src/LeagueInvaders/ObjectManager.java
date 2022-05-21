@@ -11,16 +11,17 @@ public class ObjectManager implements ActionListener {
     ArrayList<Projectile> m_projectiles = new ArrayList<Projectile>();
     ArrayList<Alien> m_aliens = new ArrayList<Alien>();
     Random random = new Random();
-    int score=0;
+    int score = 0;
 
-    public int getScore(){
-        return  score;
+    public int getScore() {
+        return score;
     }
 
-    public void setScore(int score){
-        this.score=score;
+    public void setScore(int score) {
+        this.score = score;
 
     }
+
     ObjectManager(Rocketship rocketship) {
         //Want to reuse rocketship
         m_rocketship = rocketship;
@@ -32,13 +33,12 @@ public class ObjectManager implements ActionListener {
     }
 
     void addAlien() {
-        //Alien random_alien = new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50);
-        Alien random_alien = new Alien(LeagueInvaders.WIDTH/2, 0, 50, 50);
-        m_aliens.add(random_alien);
-        //System.out.println("Alien added " + random_alien.m_x);
+        Alien random_alien = new Alien(random.nextInt(LeagueInvaders.WIDTH), 0, 50, 50);
+            m_aliens.add(random_alien);
     }
 
     void update() {
+        m_rocketship.update();
         for (int i = 0; i < m_aliens.size(); i++) {
             m_aliens.get(i).update();
             if (m_aliens.get(i).m_y < 0 || m_aliens.get(i).m_y > LeagueInvaders.HEIGHT) {
@@ -58,7 +58,7 @@ public class ObjectManager implements ActionListener {
 
     void draw(Graphics e) {
         //calling rocketship
-        if(m_rocketship.m_isActive){
+        if (m_rocketship.m_isActive) {
             m_rocketship.draw(e);
         }
 
@@ -66,7 +66,6 @@ public class ObjectManager implements ActionListener {
         //System.out.println("DRAW ALIENS AND STUFF");
         //Going through the aliens and drawing them
         for (int i = 0; i < m_aliens.size(); i++) {
-            System.out.println("draw aliens");
             m_aliens.get(i).draw(e);
 
         }
@@ -89,7 +88,7 @@ public class ObjectManager implements ActionListener {
             }
         }
 
-        if(!m_rocketship.m_isActive){
+        if (!m_rocketship.m_isActive) {
 
         }
     }
@@ -100,27 +99,14 @@ public class ObjectManager implements ActionListener {
     }
 
 
-
     private void checkAlienCollision() {
         for (int i = 0; i < m_aliens.size(); i++) {
-            //  System.out.println("\n"+i);
-            System.out.println("rocketship x: " + m_rocketship.m_x + "  rocketship y: " + m_rocketship.m_y+" Ht: "+m_rocketship.m_height+ " Wd: "+m_rocketship.m_width);
-            System.out.println("Aliens     x: " + m_aliens.get(i).m_x + "  Aliens     y: " + m_aliens.get(i).m_y+" Ht: "+m_aliens.get(i).m_height+" Wd: "+m_aliens.get(i).m_width);
-            System.out.println("   ");
-            //if ( (m_aliens.get(i).collisionBox.intersects(m_rocketship.collisionBox)) ||
-            //(m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) )
             if (m_rocketship.collisionBox.intersects(m_aliens.get(i).collisionBox)) {
                 m_aliens.get(i).m_isActive = false;
                 m_rocketship.m_isActive = false;
-
-                System.out.println("alien collision and i: " + i);
-                System.out.println("rocketship x: " + m_rocketship.m_x + "  rocketship y: " + m_rocketship.m_y);
-                System.out.println("Aliens     x: " + m_aliens.get(i).m_x + "  Aliens     y: " + m_aliens.get(i).m_y);
-                System.out.println("   ");
             }
         }
     }
-
 
 
     private void checkProjectileCollision() {
@@ -130,17 +116,18 @@ public class ObjectManager implements ActionListener {
                     m_aliens.get(z).m_isActive = false;
                     m_projectiles.get(i).m_isActive = false;
                     score++;
+                    System.out.println("Score "+score);
 
                 }
             }
         }
     }
 
-    public void resetState(){
+    public void resetState() {
         m_aliens.clear();
         m_projectiles.clear();
-        m_rocketship.m_x= LeagueInvaders.WIDTH / 2;
-        m_rocketship.m_y= LeagueInvaders.HEIGHT - 120;
+        m_rocketship.m_x = LeagueInvaders.WIDTH / 2;
+        m_rocketship.m_y = LeagueInvaders.HEIGHT - 120;
         m_rocketship.m_isActive = true;
         setScore(0);
     }
@@ -149,10 +136,8 @@ public class ObjectManager implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //To add an alien everytime timer expires
-        if(m_aliens.size()==0){
+        addAlien();
 
-            addAlien();
-        }
     }
 }
 

@@ -11,20 +11,20 @@ public class Projectile extends GameObject {
 
     Projectile(int x, int y, int width, int height) {
         super(x, y, width, height);
-        m_speed=1;
+        m_speed = 1;
         if (m_needImage) {
-            loadImage ("bullet.png");
+            loadImage("bullet.png");
         }
     }
 
-    void update(){
-        m_y=m_y-m_speed;
+    void update() {
+        m_y = m_y - m_speed;
         super.update();
 
-      //  m_y-=m_speed;
+        //  m_y-=m_speed;
     }
 
-    void draw(Graphics g){
+    void draw(Graphics g) {
         if (gotImage) {
             g.drawImage(image, m_x, m_y, m_width, m_height, null);
         } else {
