@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f20e9350-e871-4c5d-a707-8eca28533f3d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/Alien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/Alien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/LeagueInvaders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/LeagueInvaders.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/ObjectManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/ObjectManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/Projectile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LeagueInvaders/Rocketship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LeagueInvaders/Rocketship.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +108,15 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/LeagueInvaders/GamePanel.java</url>
+          <line>118</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="mid" />

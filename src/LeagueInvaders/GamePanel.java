@@ -132,8 +132,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.drawString(headingEnd, getStart(g, headingEnd), 200);
 
 
-        String subtitle = subtitleEndPrefix + man_object.score+ subtitleEndSuffix;
-        g.drawString(subtitle, getStart(g, subtitle), 300);
+        //String subtitle = subtitleEndPrefix + man_object.score+ subtitleEndSuffix;
+       // g.drawString(subtitle, getStart(g, subtitle), 300);
 
         g.drawString(subtitle2End, getStart(g, subtitle2End), 400);
     }
